@@ -1,0 +1,50 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {% tailwind_css %}
+  <title>Add Menu Item</title>
+</head>
+<body class="bg-gradient-to-br from-orange-100 via-yellow-200 to-pink-100 min-h-screen flex items-center justify-center px-4 py-12 font-sans">
+
+  <div class="bg-white p-8 rounded-3xl shadow-xl w-full max-w-lg border-4 border-dashed border-pink-200">
+    <h1 class="text-3xl font-extrabold text-center text-orange-500 mb-6">
+      🍽️ Add a New Menu Item
+    </h1>
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-6">
+      {% csrf_token %}
+      {% if error %}
+        <p class="text-red-500 text-center font-semibold">{{ error }}</p>
+      {% endif %}
+
+      <div>
+        <label for="name" class="block text-sm font-bold text-pink-600 mb-1">🍕 Item Name</label>
+        <input type="text" id="name" name="name" class="w-full border-2 border-pink-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="Eg: Margherita Pizza" required>
+      </div>
+
+      <div>
+        <label for="price" class="block text-sm font-bold text-pink-600 mb-1">💰 Price (₹)</label>
+        <input type="number" id="price" name="price" step="0.01" class="w-full border-2 border-pink-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="Eg: 249.00" required>
+      </div>
+
+      <div>
+        <label for="description" class="block text-sm font-bold text-pink-600 mb-1">📝 Description</label>
+        <textarea id="description" name="description" rows="3" class="w-full border-2 border-pink-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="Tell us about the dish..."></textarea>
+      </div>
+
+      <div>
+        <label for="image" class="block text-sm font-bold text-pink-600 mb-1">📸 Upload Image</label>
+        <input type="file" id="image" name="image" class="w-full text-sm border-2 border-pink-300 rounded-lg px-4 py-2 bg-pink-50 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-400 file:text-white hover:file:bg-orange-500">
+      </div>
+
+      <button type="submit" class="w-full py-3 bg-gradient-to-r from-pink-500 to-orange-500 text-white font-bold rounded-xl hover:shadow-lg hover:scale-105 transition duration-300 ease-in-out">
+        🍴 Add to Menu
+      </button>
+    </form>
+  </div>
+
+</body>
+</html>

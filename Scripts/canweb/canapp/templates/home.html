@@ -1,0 +1,97 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% tailwind_css %}
+    <title>Canteen Delight</title>
+</head>
+<body class="bg-gradient-to-br from-yellow-200 via-pink-200 to-orange-200 min-h-screen flex items-center justify-center px-6 md:px-20">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center w-full max-w-6xl">
+        <!-- Left Text Section -->
+        <div class="space-y-6 animate-fade-in-left">
+            <h1 class="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 drop-shadow">
+                FRESH FOOD.<br>FAST SERVICE.
+            </h1>
+            <p class="text-lg md:text-xl text-gray-800">
+                Order your favorite meals in seconds.<br>
+                Quick bites. Big taste.
+            </p>
+            <div class="space-x-4 pt-4">
+                <a href="{% url 'signup' %}" class="px-6 py-3 bg-red-500 text-white rounded-full font-semibold hover:bg-red-600 transition">
+                    Order Now
+                </a>
+                <a href="{% url 'login' %}" class="px-6 py-3 border-2 border-red-500 text-red-500 rounded-full font-semibold hover:bg-red-50 transition">
+                    Log In
+                </a>
+            </div>
+        </div>
+
+        <!-- Right Animation Section -->
+        <div class="flex justify-center md:justify-end">
+            <img src="{% static 'images/#CANTEEN.jpg' %}" alt="Delicious Burger" class="w-72 md:w-96 animate-float drop-shadow-xl" />
+        </div>
+    </div>
+    <!-- Loading Overlay -->
+<!-- Clean Pulse Loader -->
+<div id="page-loader" class="fixed inset-0 bg-white/70 backdrop-blur-md flex items-center justify-center z-50 hidden">
+    <div class="w-12 h-12 bg-gradient-to-r from-orange-400 to-pink-500 rounded-full animate-ping opacity-75"></div>
+  </div>
+  
+
+    <!-- Custom Animations -->
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes fade-in-left {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .animate-fade-in-left {
+            animation: fade-in-left 1s ease-out forwards;
+        }
+    </style>
+<script>
+    const loader = document.getElementById("page-loader");
+  
+    // Show loader on form submit or link click
+    document.addEventListener("DOMContentLoaded", () => {
+      // Handle form submissions
+      document.querySelectorAll("form").forEach(form => {
+        form.addEventListener("submit", () => {
+          loader.classList.remove("hidden");
+        });
+      });
+  
+      // Handle link clicks
+      document.querySelectorAll("a").forEach(link => {
+        const target = link.getAttribute("target");
+        const href = link.getAttribute("href");
+  
+        if (href && !href.startsWith('#') && !target) {
+          link.addEventListener("click", e => {
+            loader.classList.remove("hidden");
+          });
+        }
+      });
+    });
+  </script>
+  
+</body>
+</html>

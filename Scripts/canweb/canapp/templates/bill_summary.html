@@ -1,0 +1,101 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {% tailwind_css %}
+  <title>Bill Summary</title>
+  <style>
+    /* Optional animation delay for smoother entrance */
+    .fade-in {
+      animation: fadeIn 1.2s ease-in-out forwards;
+    }
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-yellow-200 via-pink-100 to-orange-300 min-h-screen font-sans text-gray-800">
+
+  <!-- Bill Summary Section -->
+  <section class="px-6 py-16">
+    <h2 class="text-4xl font-extrabold text-center text-orange-700 mb-12 tracking-wide animate-bounce">🧾 Bill Summary</h2>
+
+    <!-- Order Details -->
+    <div class="bg-white bg-opacity-90 backdrop-blur-md rounded-3xl shadow-2xl p-8 max-w-3xl mx-auto fade-in">
+      <h3 class="text-xl font-bold text-orange-600 mb-6 border-b pb-2">🍽️ Order Details</h3>
+      <ul class="space-y-4">
+        {% for entry in cart_items %}
+        <li class="flex justify-between bg-orange-50 hover:bg-orange-100 px-4 py-2 rounded-xl transition-transform duration-200 hover:scale-105 shadow-sm">
+          <span class="font-medium text-gray-700">{{ entry.item.name }} <span class="text-sm text-gray-500">(x{{ entry.qty }})</span></span>
+          <span class="font-semibold text-orange-600">₹{{ entry.subtotal }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+      <hr class="my-6 border-orange-300">
+      <div class="flex justify-between font-bold text-2xl text-orange-700">
+        <span>Total:</span>
+        <span>₹{{ cart_total }}</span>
+      </div>
+    </div>
+
+    <!-- Payment Method -->
+    <div class="bg-white bg-opacity-90 backdrop-blur-md rounded-3xl shadow-2xl p-8 max-w-3xl mx-auto mt-12 fade-in">
+      <h3 class="text-xl font-bold text-orange-600 mb-6 border-b pb-2">💳 Payment Method</h3>
+      <form method="POST" class="space-y-6">
+        {% csrf_token %}
+        
+        <!-- Table Selection -->
+        <select name="table_number" class="w-full border-2 border-orange-300 rounded-lg px-4 py-3 bg-white text-orange-700 font-medium shadow-inner focus:ring-2 focus:ring-orange-400">
+          <option value="" disabled selected>Select Table</option>
+          {% for table in tables %}
+          <option value="{{ table.number }}">Table {{ table.number }}</option>
+          {% endfor %}
+        </select>
+        
+        <!-- Payment Options -->
+        <div class="space-y-3 text-gray-700">
+          <label class="flex items-center gap-2 cursor-pointer hover:text-orange-700">
+            <input type="radio" name="payment_method" value="cash" class="accent-orange-500 scale-125" onclick="showCashMessage()">
+            <span>Cash</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer hover:text-orange-700">
+            <input type="radio" name="payment_method" value="upi" class="accent-orange-500 scale-125" onclick="hideCashMessage()">
+            <span>UPI</span>
+          </label>
+        </div>
+
+        <!-- Display Cash Message -->
+        <div id="cash-message" class="mt-4 text-center text-lg font-semibold text-green-600 hidden">
+          Pay at the reception table.
+        </div>
+
+        <!-- Confirm Order Button -->
+        <button type="submit" class="w-full bg-gradient-to-r from-green-400 to-teal-500 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 mt-6">
+          ✅ Confirm Order
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- JavaScript for Dynamic Cash Message -->
+  <script>
+    function showCashMessage() {
+      document.getElementById('cash-message').classList.remove('hidden');
+    }
+
+    function hideCashMessage() {
+      document.getElementById('cash-message').classList.add('hidden');
+    }
+  </script>
+
+</body>
+</html>

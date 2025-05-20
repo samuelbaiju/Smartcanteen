@@ -1,0 +1,53 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Your Bills</title>
+    {% tailwind_css %}
+  </head>
+  <body class="bg-gradient-to-br from-purple-100 via-indigo-100 to-pink-100 min-h-screen p-8 font-sans">
+
+    <h1 class="text-4xl font-extrabold text-center text-purple-800 mb-10 animate-bounce drop-shadow-lg">
+      Your Bills
+    </h1>
+
+    <div class="overflow-x-auto shadow-xl rounded-xl bg-white p-6">
+      <table class="table-auto w-full border-collapse">
+        <thead>
+          <tr class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white text-lg">
+            <th class="border border-gray-300 px-4 py-3">Bill ID</th>
+            <th class="border border-gray-300 px-4 py-3">Table Number</th>
+            <th class="border border-gray-300 px-4 py-3">Payment Method</th>
+            <th class="border border-gray-300 px-4 py-3">Total Amount</th>
+            <th class="border border-gray-300 px-4 py-3">Items</th>
+            <th class="border border-gray-300 px-4 py-3">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for bill in bills %}
+          <tr class="hover:bg-indigo-100 transition-all duration-300 ease-in-out">
+            <td class="border border-gray-300 px-4 py-2 text-center font-medium">{{ bill.id }}</td>
+            <td class="border border-gray-300 px-4 py-2 text-center">{{ bill.table_number }}</td>
+            <td class="border border-gray-300 px-4 py-2 text-center">{{ bill.payment_method }}</td>
+            <td class="border border-gray-300 px-4 py-2 text-center text-green-600 font-bold">
+              ₹{{ bill.total_amount }}
+            </td>
+            <td class="border border-gray-300 px-4 py-2">
+              <ul class="list-disc list-inside text-sm text-gray-700">
+                {% for bill_item in bill.billitem_set.all %}
+                <li>{{ bill_item.item.name }} (x{{ bill_item.quantity }})</li>
+                {% endfor %}
+              </ul>
+            </td>
+            <td class="border border-gray-300 px-4 py-2 text-center text-sm text-gray-600">
+              {{ bill.created_at }}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </body>
+</html>

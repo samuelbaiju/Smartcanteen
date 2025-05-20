@@ -1,0 +1,68 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Menu Item</title>
+  {% tailwind_css %}
+  <style>
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-slide-in {
+      animation: slide-in 0.7s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-yellow-200 via-pink-200 to-orange-300 min-h-screen flex items-center justify-center py-10 font-sans">
+
+  <div class="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl w-full max-w-2xl p-8 animate-slide-in">
+    <h2 class="text-4xl font-extrabold text-center text-orange-600 mb-6 tracking-tight">✏️ Edit Menu Item</h2>
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-6">
+        {% csrf_token %}
+
+        <div>
+          <label for="name" class="block text-sm font-semibold text-gray-700 mb-1">Dish Name</label>
+          <input type="text" name="name" id="name" value="{{ item.name }}"
+                 class="w-full border border-pink-300 rounded-xl px-4 py-2 focus:ring-2 focus:ring-pink-400 focus:outline-none transition duration-200 ease-in-out hover:shadow-md"
+                 required>
+        </div>
+
+        <div>
+          <label for="price" class="block text-sm font-semibold text-gray-700 mb-1">Price (₹)</label>
+          <input type="number" name="price" id="price" step="0.01" value="{{ item.price }}"
+                 class="w-full border border-orange-300 rounded-xl px-4 py-2 focus:ring-2 focus:ring-orange-400 focus:outline-none transition duration-200 ease-in-out hover:shadow-md"
+                 required>
+        </div>
+
+        <div>
+          <label for="description" class="block text-sm font-semibold text-gray-700 mb-1">Description</label>
+          <textarea name="description" id="description" rows="4"
+                    class="w-full border border-yellow-300 rounded-xl px-4 py-2 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition duration-200 ease-in-out hover:shadow-md">{{ item.description }}</textarea>
+        </div>
+
+        <div>
+          <label for="image" class="block text-sm font-semibold text-gray-700 mb-1">Image</label>
+          <input type="file" name="image" id="image"
+                 class="w-full border border-pink-300 rounded-xl px-4 py-2 bg-white/80 transition duration-200 ease-in-out hover:shadow-md">
+        </div>
+
+        <button type="submit"
+                class="w-full py-3 bg-gradient-to-r from-green-500 to-teal-400 text-white font-bold rounded-xl shadow-lg hover:scale-105 hover:shadow-2xl transition-all duration-300">
+          ✅ Update Menu Item
+        </button>
+    </form>
+
+    <div class="text-center mt-6">
+      <a href="{% url 'inhome' %}"
+         class="inline-block text-pink-600 font-medium hover:underline hover:scale-105 transition duration-200">
+        ← Back to Home
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>
