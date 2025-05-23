@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: my-django-app
+    env: python
+    buildCommand: pip install -r scripts/requirements.txt
+    startCommand: gunicorn scripts.myproject.wsgi:application
+    rootDir: scripts/canweb
